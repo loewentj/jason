@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Playground</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Randomizer</h1>
+  <div class="container">
+    <select name="" id="player-selector">
+      <option value="" selected disabled hidden value="">Player Selection</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+<!-- </optgroup> -->
+    </select>
+    
+    
+
+</div>
+<div class="wrapper">
+    <input type="radio" name="random" id="random" class="random" checked>
+    <label for="random">Random</label>
+    <input type="radio" name="random" id="sequence" class="random">
+    <label for="sequence">Sequence</label>
+</div>
+<div>
+  <input id="timer" type="number" min="1" max="120" name="" placeholder="Per Person in seconds" >
+
+</div>
+ <button id="btn-submit" type="submit">Play</button>
+
+ 
+  <h4 id="player-div" value="test" ></h4>
+  
+ 
+<!-- <script src="/public/app.js"></script> -->
+
+<script src="app.js"></script>
+<!-- <script src="speech.js"></script> -->
+</body>
+</html>
+
