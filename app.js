@@ -168,7 +168,8 @@ function speakNow() {
     speech.rate = .9;
     speech.pitch = 0.5;
     speech.volume = 1;
-    speech.voice = speechSynthesis.getVoices()[3];
+    speech.lang = 'en-US';
+    speech.voice = speechSynthesis.getVoices()[0];
     speech.text = playerDiv.textContent;
     speechSynthesis.speak(speech);
 
