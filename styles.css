@@ -74,3 +74,13 @@ h1{
 #player-div{
     font-size: 2rem;
 }
+
+
+
+.hide{
+    display: none;
+
+}
+.show{
+    display: block;
+}

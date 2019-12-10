@@ -4,6 +4,7 @@ const container = document.querySelector('.container');
 
 
 const btnSubmit = document.querySelector('#btn-submit');
+const btnPause = document.querySelector('#btn-pause');
 
 const timer = document.querySelector('#wrapper .timer');
 
@@ -37,30 +38,59 @@ players.addEventListener('change', () => {
 
 btnSubmit.addEventListener('click', () => {
     const playerNames = document.querySelectorAll('.player-name');
+    let my_div = document.getElementById('player-div');
+
     let random = document.getElementById('random').checked;
     playerNames.forEach(player => {
 
         people.push(player.value);
-    
+
 
     });
-    
-    if (random === true){
-       
-    //    setTimeout(nextPlayer, 50000)
-  
- 
-    // setInterval(nextPlayer, 10000);
-       countDown();
-        
-               
 
-    }else{
-        people.forEach()
-        console.log("Sequence Selected");
+    if (random === true && btnSubmit.textContent === 'Play') {
+        countDown();
     }
-    
+
+    else if (random === true && btnSubmit.textContent === 'Pause') {
+
+        my_div.textContent = 'Paused';
+        btnSubmit.textContent = "Resume";
+        pauseFunction();
+        // nextPlayer();
+
+
+        ///goes here somewhere
+
+    }
+    else if (btnSubmit.textContent === 'Continue') {
+        
+        btnSubmit.textContent = "Pause";
+        nextPlayer();
+    // } else {
+    //     let timer = document.querySelector('#timer').value;
+
+
+    //     setInterval(nextPlayer, timer * 1000);
+    // }
+
+    }
 })
+
+
+
+
+
+
+
+
+
+//    else{
+//         // people.forEach()
+//         console.log("Sequence Selected");
+//     }
+
+
 
 
 
@@ -93,46 +123,58 @@ let inputElement = function () {
 
 }
 
-let countDown = function(){
+let countDown = function () {
     var timeleft = 10;
-    var downloadTimer = setInterval(function(){
-      document.getElementById("player-div").innerHTML = timeleft;
-      timeleft -= 1;
-      if(timeleft <= 0){
-        clearInterval(downloadTimer);
-        // document.getElementById("player-div").innerHTML = people[0].value;
-        playerDiv.textContent = [people[Math.floor(Math.random(0)*people.length)]];
-      }
+    var downloadTimer = setInterval(function () {
+        document.getElementById("player-div").innerHTML = timeleft;
+        timeleft -= 1;
+        if (timeleft <= 0) {
+            clearInterval(downloadTimer);
+
+            playerDiv.textContent = [people[Math.floor(Math.random(0) * people.length)]];
+            btnSubmit.textContent = "Pause";
+        }
     }, 1000);
+
     let timer = document.querySelector('#timer').value;
-    setInterval(nextPlayer, timer*1000);
+    // await (200); 
+
+
+    setInterval(nextPlayer, timer * 1000);
+
+
+    //setTimeout(setInterval(nextPlayer, timer*1000)),2000;
 }
-                                     
-function nextPlayer()
-{
+
+function nextPlayer() {
+    if (btnSubmit.textContent === 'Pause') {
+        let counter = 0;
+
+        let playersInGame = [people[Math.floor(Math.random(0) * people.length)]];
+
+        let my_div = document.getElementById('player-div');
+        my_div.innerHTML = playersInGame[counter % playersInGame.length];
+        counter += 1;
+        speakNow();
+    }
     
-    var counter = 0;
-    
-    let playersInGame = [people[Math.floor(Math.random(0)*people.length)]];
-    
-    let my_div = document.getElementById('player-div');
-    my_div.innerHTML = playersInGame[counter % playersInGame.length];
-    counter += 1;
-    speakNow();
-    
+
+
 }
 
 
-function speakNow(){
+function speakNow() {
     let speech = new SpeechSynthesisUtterance();
     speech.rate = .9;
     speech.pitch = 0.5;
     speech.volume = 1;
-    speech.voice = speechSynthesis.getVoices()[0];
+    speech.voice = speechSynthesis.getVoices()[3];
     speech.text = playerDiv.textContent;
-   
     speechSynthesis.speak(speech);
-  
 
 }
 
+const pauseFunction = function(){
+    btnSubmit.textContent = "Continue";
+    console.log("Paused")
+}
