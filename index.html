@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Playground</title>
+  <link href="https://fonts.googleapis.com/css?family=Acme|Domine|Montserrat|Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -34,11 +35,14 @@
   <input id="timer" type="number" min="10" max="120" name="" placeholder="Per Person in seconds" value="10">
 
 </div>
- <button id="btn-submit" type="submit">Play</button>
- <button id="btn-pause"  class="hide" type="submit">Pause</button>
+<div id="interactive-buttons">
+  <button id="btn-submit" type="submit">Play</button>
+  <button id="btn-reset"  class="hide" type="submit">Reset</button>
+</div> 
+
 
  
-  <h4 id="player-div" value="test" ></h4>
+  <h5 id="player-div" value="test" ></h5>
   
  
 <!-- <script src="/public/app.js"></script> -->

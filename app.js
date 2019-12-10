@@ -4,7 +4,7 @@ const container = document.querySelector('.container');
 
 
 const btnSubmit = document.querySelector('#btn-submit');
-const btnPause = document.querySelector('#btn-pause');
+const btnReset = document.querySelector('#btn-reset');
 
 const timer = document.querySelector('#wrapper .timer');
 
@@ -50,29 +50,28 @@ btnSubmit.addEventListener('click', () => {
 
     if (random === true && btnSubmit.textContent === 'Play') {
         countDown();
-    }
-
-    else if (random === true && btnSubmit.textContent === 'Pause') {
+    } else if (random === true && btnSubmit.textContent === 'Pause') {
 
         my_div.textContent = 'Paused';
         btnSubmit.textContent = "Resume";
+        btnReset.setAttribute('class', 'show');
         pauseFunction();
         // nextPlayer();
 
 
         ///goes here somewhere
 
-    }
-    else if (btnSubmit.textContent === 'Continue') {
-        
+    } else if (btnSubmit.textContent === 'Continue') {
+
         btnSubmit.textContent = "Pause";
+        btnReset.setAttribute('class', 'hide');
         nextPlayer();
-    // } else {
-    //     let timer = document.querySelector('#timer').value;
+        // } else {
+        //     let timer = document.querySelector('#timer').value;
 
 
-    //     setInterval(nextPlayer, timer * 1000);
-    // }
+        //     setInterval(nextPlayer, timer * 1000);
+        // }
 
     }
 })
@@ -157,7 +156,7 @@ function nextPlayer() {
         counter += 1;
         speakNow();
     }
-    
+
 
 
 }
@@ -175,7 +174,21 @@ function speakNow() {
 
 }
 
-const pauseFunction = function(){
+const pauseFunction = function () {
     btnSubmit.textContent = "Continue";
     console.log("Paused")
 }
+
+
+btnReset.addEventListener('click', ()=>{
+    let x = document.querySelectorAll('.player-name,.input-div');
+    let my_div = document.getElementById('player-div');
+    for (let i = x.length - 1; i >= 0; i--) {
+        x[i].parentNode.removeChild(x[i]);
+    btnReset.setAttribute('class', 'hide');   
+    my_div.textContent = '';
+    btnSubmit.textContent = "Play";
+    players.selectedIndex = 0;
+    players.focus();
+    people = [];
+}})
