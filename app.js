@@ -172,15 +172,14 @@ function speakNow() {
         speech.rate = .8;
         speech.pitch = 1;
         speech.volume = 1;
-        speech.lang = 'en-US';
         speech.voice = voices[4];
         speech.text = playerDiv.textContent;
         speechSynthesis.speak(speech);
+        
     }else{
         speech.rate = .8;
         speech.pitch = 1;
         speech.volume = 1;
-        speech.lang = 'en-US';
         speech.voice = voices[3];
         speech.text = playerDiv.textContent;
         speechSynthesis.speak(speech);
