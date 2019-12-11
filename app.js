@@ -113,6 +113,7 @@ btnSubmit.addEventListener('click', () => {
     });
     if (people.length <= 0) {
         error.innerText = 'Player Selection required';
+        error.focus();
     } else if (random === true && btnSubmit.textContent === 'Play') {
         countDown();
         error.innerText = '';
