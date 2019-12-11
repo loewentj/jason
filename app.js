@@ -1,5 +1,16 @@
-window.onload = function() {
-    voices = window.speechSynthesis.getVoices();
+window.onload = () => {
+    return new Promise(resolve => {
+        let voices = speechSynthesis.getVoices()
+        if (voices.length) {
+          resolve(voices)
+          return
+        }
+        speechSynthesis.onvoiceschanged = () => {
+          voices = speechSynthesis.getVoices()
+          resolve(voices)
+        }
+      })
+    
 };
 const players = document.getElementById('player-selector');
 
@@ -15,7 +26,8 @@ const playerDiv = document.querySelector('#player-div');
 
 const voiceSelection = document.getElementById('male');
 
-
+  
+  
 
 
 let people = [];
@@ -30,7 +42,7 @@ players.addEventListener('change', () => {
     if (element <= 0) {
 
         inputElement();
-        console.log("if rule")
+        // console.log("if rule")
 
     } else if (element) {
         let x = document.querySelectorAll('.player-name,.input-div');
@@ -175,6 +187,7 @@ function speakNow() {
         speech.voice = voices[4];
         speech.text = playerDiv.textContent;
         speechSynthesis.speak(speech);
+        // console.log(voices);
         
     }else{
         speech.rate = .8;
