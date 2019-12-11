@@ -164,12 +164,13 @@ function nextPlayer() {
 
 function speakNow() {
     let speech = new SpeechSynthesisUtterance();
-    speech.rate = .9;
-    speech.pitch = 0.5;
+    speech.rate = .5;
+    speech.pitch = 1;
     speech.volume = 1;
     speech.lang = 'en-US';
     speech.voice = speechSynthesis.getVoices()[0];
     speech.text = playerDiv.textContent;
+    // speechSynthesis.speak(speech);
     speechSynthesis.speak(speech);
 
 }
@@ -191,4 +192,7 @@ btnReset.addEventListener('click', ()=>{
     players.selectedIndex = 0;
     players.focus();
     people = [];
+    location.reload();
+   
+    
 }})
