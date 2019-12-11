@@ -13,6 +13,8 @@ const timer = document.querySelector('#wrapper .timer');
 
 const playerDiv = document.querySelector('#player-div');
 
+const voiceSelection = document.getElementById('male');
+
 
 
 
@@ -143,8 +145,6 @@ function nextPlayer() {
        
     }
 
-
-
 }
 
 
@@ -161,19 +161,33 @@ function nextPlayer() {
 // }
 
 function speakNow() {
-   
+
     const synth = window.speechSynthesis;
   
     let voices = synth.getVoices();
     
     const speech = new SpeechSynthesisUtterance();
-    speech.rate = .8;
-    speech.pitch = 1;
-    speech.volume = 1;
-    speech.lang = 'en-US';
-    speech.voice = voices[4];
-    speech.text = playerDiv.textContent;
-    speechSynthesis.speak(speech);
+   
+    if (voiceSelection.checked ){
+        speech.rate = .8;
+        speech.pitch = 1;
+        speech.volume = 1;
+        speech.lang = 'en-US';
+        speech.voice = voices[4];
+        speech.text = playerDiv.textContent;
+        speechSynthesis.speak(speech);
+    }else{
+        speech.rate = .8;
+        speech.pitch = 1;
+        speech.volume = 1;
+        speech.lang = 'en-US';
+        speech.voice = voices[3];
+        speech.text = playerDiv.textContent;
+        speechSynthesis.speak(speech);
+    }
+    
+   
+    
    
       
 

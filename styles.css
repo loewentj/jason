@@ -24,7 +24,11 @@ body{
 }
 
 
-
+h4{
+    font-family: 'Domine', serif;
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+}
 
 .hide{
     visibility:hidden;
@@ -115,7 +119,16 @@ h1{
     display: inline-block;
 }
 
+.voice{
+    display: flex;
+    justify-content: center;
+}
 
+#male , #female, .voice-selection{
+    margin-right: 12.5px;
+    margin-left: 2.5px;
+    margin-bottom: 1rem;
+}
 @media screen 
   and (min-device-width: 1200px) 
   /* and (max-device-width: 1600px)  */
