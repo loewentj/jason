@@ -1,17 +1,31 @@
+// window.onload = () => {
+//     return new Promise(resolve => {
+//         let voices = speechSynthesis.getVoices()
+//         if (voices.length) {
+//           resolve(voices)
+//           return
+//         }
+//         speechSynthesis.onvoiceschanged = () => {
+//           voices = speechSynthesis.getVoices()
+//           resolve(voices)
+
+//         }
+//       })
+
+
+// };
+
 window.onload = () => {
-    return new Promise(resolve => {
-        let voices = speechSynthesis.getVoices()
-        if (voices.length) {
-          resolve(voices)
-          return
-        }
-        speechSynthesis.onvoiceschanged = () => {
-          voices = speechSynthesis.getVoices()
-          resolve(voices)
-        }
-      })
-    
-};
+    let supportMsg = document.getElementById('msg');
+
+    if ('speechSynthesis' in window) {
+        supportMsg.innerHTML = 'Your browser <strong>supports</strong> speech synthesis.';
+    } else {
+        supportMsg.innerHTML = 'Sorry your browser <strong>does not support</strong> speech synthesis.<br>Try this in <a href="https://www.google.co.uk/intl/en/chrome/browser/canary.html">Chrome Canary</a>.';
+        supportMsg.classList.add('not-supported');
+    }
+}
+
 const players = document.getElementById('player-selector');
 
 const container = document.querySelector('.container');
@@ -24,15 +38,43 @@ const timer = document.querySelector('#wrapper .timer');
 
 const playerDiv = document.querySelector('#player-div');
 
-const voiceSelection = document.getElementById('male');
+const voiceSelect = document.getElementById('voice');
+const volumeInput = document.getElementById('volume');
+const rateInput = document.getElementById('rate');
+const pitchInput = document.getElementById('pitch');
+const error = document.getElementById('error');
 
-  
-  
+
+function loadVoices() {
+    // Fetch the available voices.
+    let voices = speechSynthesis.getVoices();
+
+    // Loop through each of the voices.
+    voices.forEach(function (voice, i) {
+        // Create a new option element.
+        let option = document.createElement('option');
+
+        // Set the options value and text.
+        option.value = voice.name;
+        option.innerHTML = voice.name;
+
+        // Add the option to the voice selector.
+        voiceSelect.appendChild(option);
+    });
+}
+
+// Execute loadVoices.
+loadVoices();
+
+// Chrome loads voices asynchronously.
+window.speechSynthesis.onvoiceschanged = function (e) {
+    loadVoices();
+};
 
 
 let people = [];
 
-document.addEventListener('onload', ()=>{
+document.addEventListener('onload', () => {
     voices = window.speechSynthesis.getVoices();
 })
 
@@ -69,23 +111,25 @@ btnSubmit.addEventListener('click', () => {
 
 
     });
-
-    if (random === true && btnSubmit.textContent === 'Play') {
+    if (people.length <= 0) {
+        error.innerText = 'Player Selection required';
+    } else if (random === true && btnSubmit.textContent === 'Play') {
         countDown();
+        error.innerText = '';
     } else if (random === true && btnSubmit.textContent === 'Pause') {
 
         my_div.textContent = 'Paused';
         btnSubmit.textContent = "Resume";
         btnReset.setAttribute('class', 'show');
         pauseFunction();
-        
+
 
     } else if (btnSubmit.textContent === 'Continue') {
 
         btnSubmit.textContent = "Pause";
         btnReset.setAttribute('class', 'hide');
         nextPlayer();
-     
+
 
     }
 })
@@ -135,13 +179,13 @@ let countDown = function () {
     }, 1000);
 
     let timer = document.querySelector('#timer').value;
-  
+
 
 
     setInterval(nextPlayer, timer * 1000);
 
 
-   
+
 }
 
 function nextPlayer() {
@@ -154,54 +198,35 @@ function nextPlayer() {
         my_div.innerHTML = playersInGame[counter % playersInGame.length];
         counter += 1;
         speakNow();
-       
+
     }
 
 }
 
 
-// function speakNow() {
-//     let speech = new SpeechSynthesisUtterance();
-//     speech.rate = .5;
-//     speech.pitch = 1;
-//     speech.volume = 1;
-//     speech.lang = 'en-US';
-//     speech.voice = speechSynthesis.getVoices()[0];
-//     speech.text = playerDiv.textContent;
-//     speechSynthesis.speak(speech);
-
-// }
 
 function speakNow() {
 
-    const synth = window.speechSynthesis;
-  
-    let voices = synth.getVoices();
-    
+    // const synth = window.speechSynthesis;
+
+    // let voices = synth.getVoices();
+
     const speech = new SpeechSynthesisUtterance();
-   
-    if (voiceSelection.checked ){
-        speech.rate = .8;
-        speech.pitch = 1;
-        speech.volume = 1;
-        speech.voice = voices[4];
-        speech.text = playerDiv.textContent;
-        speechSynthesis.speak(speech);
-        // console.log(voices);
-        
-    }else{
-        speech.rate = .8;
-        speech.pitch = 1;
-        speech.volume = 1;
-        speech.voice = voices[3];
-        speech.text = playerDiv.textContent;
-        speechSynthesis.speak(speech);
+
+    speech.volume = parseFloat(volumeInput.value);
+    speech.rate = parseFloat(rateInput.value);
+    speech.pitch = parseFloat(pitchInput.value);
+
+    if (voiceSelect.value) {
+        speech.voice = speechSynthesis.getVoices().filter(function (voice) {
+            return voice.name == voiceSelect.value;
+        })[0];
     }
-    
-   
-    
-   
-      
+    // speech.voice = voices[4];
+    speech.text = playerDiv.textContent;
+    speechSynthesis.speak(speech);
+
+
 
 };
 
@@ -214,20 +239,19 @@ const pauseFunction = function () {
 }
 
 
-btnReset.addEventListener('click', ()=>{
+btnReset.addEventListener('click', () => {
     let x = document.querySelectorAll('.player-name,.input-div');
     let my_div = document.getElementById('player-div');
     for (let i = x.length - 1; i >= 0; i--) {
         x[i].parentNode.removeChild(x[i]);
-    btnReset.setAttribute('class', 'hide');   
-    my_div.textContent = '';
-    btnSubmit.textContent = "Play";
-    players.selectedIndex = 0;
-    players.focus();
-    people = [];
-    location.reload();
-   
-    
-}})
+        btnReset.setAttribute('class', 'hide');
+        my_div.textContent = '';
+        btnSubmit.textContent = "Play";
+        players.selectedIndex = 0;
+        players.focus();
+        people = [];
+        location.reload();
 
 
+    }
+})
