@@ -1,3 +1,6 @@
+window.onload = function() {
+    voices = window.speechSynthesis.getVoices();
+};
 const players = document.getElementById('player-selector');
 
 const container = document.querySelector('.container');
@@ -11,8 +14,13 @@ const timer = document.querySelector('#wrapper .timer');
 const playerDiv = document.querySelector('#player-div');
 
 
+
+
 let people = [];
 
+document.addEventListener('onload', ()=>{
+    voices = window.speechSynthesis.getVoices();
+})
 
 players.addEventListener('change', () => {
     let element = document.querySelectorAll('player-names')
@@ -56,40 +64,17 @@ btnSubmit.addEventListener('click', () => {
         btnSubmit.textContent = "Resume";
         btnReset.setAttribute('class', 'show');
         pauseFunction();
-        // nextPlayer();
-
-
-        ///goes here somewhere
+        
 
     } else if (btnSubmit.textContent === 'Continue') {
 
         btnSubmit.textContent = "Pause";
         btnReset.setAttribute('class', 'hide');
         nextPlayer();
-        // } else {
-        //     let timer = document.querySelector('#timer').value;
-
-
-        //     setInterval(nextPlayer, timer * 1000);
-        // }
+     
 
     }
 })
-
-
-
-
-
-
-
-
-
-//    else{
-//         // people.forEach()
-//         console.log("Sequence Selected");
-//     }
-
-
 
 
 
@@ -136,13 +121,13 @@ let countDown = function () {
     }, 1000);
 
     let timer = document.querySelector('#timer').value;
-    // await (200); 
+  
 
 
     setInterval(nextPlayer, timer * 1000);
 
 
-    //setTimeout(setInterval(nextPlayer, timer*1000)),2000;
+   
 }
 
 function nextPlayer() {
@@ -155,6 +140,7 @@ function nextPlayer() {
         my_div.innerHTML = playersInGame[counter % playersInGame.length];
         counter += 1;
         speakNow();
+       
     }
 
 
@@ -162,18 +148,39 @@ function nextPlayer() {
 }
 
 
+// function speakNow() {
+//     let speech = new SpeechSynthesisUtterance();
+//     speech.rate = .5;
+//     speech.pitch = 1;
+//     speech.volume = 1;
+//     speech.lang = 'en-US';
+//     speech.voice = speechSynthesis.getVoices()[0];
+//     speech.text = playerDiv.textContent;
+//     speechSynthesis.speak(speech);
+
+// }
+
 function speakNow() {
-    let speech = new SpeechSynthesisUtterance();
-    speech.rate = .5;
+   
+    const synth = window.speechSynthesis;
+  
+    let voices = synth.getVoices();
+    
+    const speech = new SpeechSynthesisUtterance();
+    speech.rate = .8;
     speech.pitch = 1;
     speech.volume = 1;
     speech.lang = 'en-US';
-    speech.voice = speechSynthesis.getVoices()[0];
+    speech.voice = voices[4];
     speech.text = playerDiv.textContent;
-    // speechSynthesis.speak(speech);
     speechSynthesis.speak(speech);
+   
+      
 
-}
+};
+
+
+
 
 const pauseFunction = function () {
     btnSubmit.textContent = "Continue";
@@ -196,3 +203,5 @@ btnReset.addEventListener('click', ()=>{
    
     
 }})
+
+
